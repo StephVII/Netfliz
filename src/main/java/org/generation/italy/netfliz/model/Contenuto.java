@@ -1,15 +1,15 @@
 package org.generation.italy.netfliz.model;
 
 
-import java.time.LocalDate;
-
 import org.generation.italy.netfliz.model.Contenuto;
+import org.generation.italy.netfliz.model.Regista;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Contenuto implements Comparable<Contenuto>{
@@ -28,17 +28,20 @@ public class Contenuto implements Comparable<Contenuto>{
 		private String genere;
 	
 	@Column(nullable = false)
-		private LocalDate annoProduzione;
+		private int annoProduzione;
 	
 	@Column(nullable = false)
 		private int durata;
+	
+	@ManyToOne(optional = false)
+		private Regista regista;
 
 
 	public Contenuto() {		//necessario per Spring
 		super();
 	}
 
-	public Contenuto(String titolo, String tipologia, String genere, LocalDate annoProduzione, int durata) {
+	public Contenuto(String titolo, String tipologia, String genere, int annoProduzione, int durata) {
 		super();
 		this.titolo = titolo;
 		this.tipologia = tipologia;
@@ -63,7 +66,7 @@ public class Contenuto implements Comparable<Contenuto>{
 		return genere;
 	}
 
-	public LocalDate getAnnoProduzione() {
+	public int getAnnoProduzione() {
 		return annoProduzione;
 	}
 
@@ -81,9 +84,9 @@ public class Contenuto implements Comparable<Contenuto>{
 	public int compareTo(Contenuto c) {
 		if(this.titolo.compareTo(c.getTitolo()) != 0) //se i titoli non sono uguali
 			return this.titolo.compareTo(c.getTitolo());
-		else if(this.annoProduzione.getYear() > c.annoProduzione.getYear()) //se i titoli sono uguali compara gli anni di produzione
-				return 1;
-		else if(this.annoProduzione.getYear() < c.annoProduzione.getYear())
+		else if(this.annoProduzione > c.annoProduzione) //se i titoli sono uguali compara gli anni di produzione
+			return 1;
+		else if(this.annoProduzione < c.annoProduzione)
 			return 1;
 		else 
 			return 0;

@@ -1,6 +1,5 @@
 package org.generation.italy.netfliz.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -32,9 +31,9 @@ public class ContenutiController {
 		@RequestParam(required = false) String titolo,
 		@RequestParam(required = false) String genere,
 		@RequestParam(required = false) String tipologia,
-		@RequestParam(required = false) LocalDate annoProduzione,
-		@RequestParam(required = false) LocalDate annoInizio,
-		@RequestParam(required = false) LocalDate annoFine,
+		@RequestParam(required = false) Integer annoProduzione,
+		@RequestParam(required = false) Integer annoInizio,
+		@RequestParam(required = false) Integer annoFine,
 		@RequestParam(required = false) String ordinamento)
 	{
 		
@@ -68,7 +67,7 @@ public class ContenutiController {
 		else if(titolo!=null && genere!=null && tipologia!=null && annoProduzione!=null)
 			elencoContenuti = (ArrayList<Contenuto>) contenutiRepository.findAll();
 		
-		else if(annoProduzione.getYear() >= annoInizio.getYear() && annoProduzione.getYear() <= annoFine.getYear())
+		else if(annoProduzione >= annoInizio && annoProduzione <= annoFine)
 			elencoContenuti = (ArrayList<Contenuto>) contenutiRepository.findByAnnoProduzioneBetween(annoInizio, annoFine); //ricerca tramite intervallo di anni
 		else
 			elencoContenuti = (ArrayList<Contenuto>) contenutiRepository.findAll();
